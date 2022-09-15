@@ -14,18 +14,49 @@ public class Lv1_8 {
 
     public static void main(String[] args) {
 
-        solution("aa");
+        solution("pPoooyY");
     }
 
     public static boolean solution(String s) {
 
         boolean answer = true;
 
-        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-        System.out.println("Hello Java");
+        int p = 0;
+        int y = 0;
 
+        String[] charSplit = s.split("");
+
+        for(int i=0; i<charSplit.length; i++) {
+
+            if("p".equals(charSplit[i]) || "P".equals(charSplit[i])) {
+                p++;
+            }
+
+            if("s".equals(charSplit[i]) || "S".equals(charSplit[i])) {
+                y++;
+            }
+        }
+
+        answer = p == y ? true : false;
+
+        System.out.println("p : "+p);
+        System.out.println("y : "+y);
+        System.out.println("anser : "+answer);
         return answer;
     }
 }
+
+
+/*
+
+class Solution {
+    boolean solution(String s) {
+        s = s.toUpperCase();        // 모두 대문자 화
+
+        return s.chars().filter( e -> 'P'== e).count() == s.chars().filter( e -> 'Y'== e).count();
+    }
+}
+
+ */
 
 
