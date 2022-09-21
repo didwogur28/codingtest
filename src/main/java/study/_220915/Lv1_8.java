@@ -1,4 +1,4 @@
-package study;
+package study._220915;
 
 /*
  * 대문자와 소문자가 섞여있는 문자열 s가 주어집니다.

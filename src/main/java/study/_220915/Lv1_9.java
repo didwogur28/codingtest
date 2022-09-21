@@ -1,4 +1,4 @@
-package study;
+package study._220915;
 
 /*
  * 함수 solution은 정수 n을 매개변수로 입력받습니다.

@@ -1,4 +1,4 @@
-package study;
+package study._220913;
 
 /*
 * 자연수 n이 매개변수로 주어집니다.
