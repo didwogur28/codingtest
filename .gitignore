@@ -24,3 +24,5 @@ HELP.md
 /build/
 /out/
 
+cache.properties
+outputFiles.bin
