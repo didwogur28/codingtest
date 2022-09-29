@@ -43,7 +43,7 @@ public class Lv1_43 {
 
         System.out.println(solution);
     }
-
+ 
     public static int solution(int[] nums) {
         int answer = 0;
         int cnt = nums.length / 2;
