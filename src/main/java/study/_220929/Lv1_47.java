@@ -36,41 +36,45 @@ public class Lv1_47 {
 
     public static void main(String[] args) {
 
-        double[] solution = solution(5, new int[]{2, 1, 2, 6, 2, 4, 3, 3});
+        int[] solution = solution(5, new int[]{2, 1, 2, 6, 2, 4, 3, 3});
 
         for(int i=0; i<solution.length; i++) {
             System.out.println(solution[i]);
         }
     }
 
-    public static double[] solution(int N, int[] stages) {
+    public static int[] solution(int N, int[] stages) {
 
-        double[] answer = {};
-        int aa = 0;
+        int[] answer = new int[N];
+        double result[]=new double[N];
+        int i,j=0;
+        int gd_cnt=0;
+        int all_cnt=0;
 
-        int nowStgCnt = 0;
-        int clearStgCnt = 0;
+        for(i=0;i<N;i++){
+            gd_cnt=0;
+            all_cnt=0;
+            answer[i]=i+1;
+            for(j=0;j<stages.length;j++){
+                if( i==(stages[j]-1) )
+                    gd_cnt+=1;
+                if( i<=(stages[j]-1) )
+                    all_cnt+=1;
+            }
+            result[i]=(double)gd_cnt/all_cnt;
+        }
 
-        int num = 0;
-
-        answer = new double[Arrays.stream(stages).distinct().filter(arg -> arg<6).toArray().length];
-
-        for(int i=1; i<=N; i++) {
-            for(int j=0; j< stages.length; j++) {
-                if(stages[j] == i) {
-                    nowStgCnt++;
-                    clearStgCnt++;
-                } else if(stages[j] > i) {
-                    clearStgCnt++;
+        for(i=N-1;i>=1;i--){
+            for(j=N-1;j>=(N-i);j--){
+                if( result[j-1]<result[j] ){
+                    double temp=result[j-1];
+                    result[j-1]=result[j];
+                    result[j]=temp;
+                    int temp2=answer[j-1];
+                    answer[j-1]=answer[j];
+                    answer[j]=temp2;
                 }
             }
-
-            if(num < Arrays.stream(stages).distinct().filter(arg -> arg<6).toArray().length) {
-                answer[num] = (double)nowStgCnt/clearStgCnt;
-                num++;
-            }
-            nowStgCnt = 0;
-            clearStgCnt = 0;
         }
         return answer;
     }
