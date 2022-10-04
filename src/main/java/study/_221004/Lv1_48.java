@@ -59,7 +59,7 @@ public class Lv1_48 {
                 splitArg = dartResult.split("")[i];
 
                 if (splitArg.equals("*")) {
-                    
+
                     answer = answer + anserResult(dartResult.split(splitArg)[0], splitArg);
 
                 }
