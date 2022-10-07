@@ -97,7 +97,6 @@ public class Lv1_48 {
                 if(clsArg.equals("#")){
                     num = num * (-1);
                 }
-
                 result = result + num;
             }
         }
