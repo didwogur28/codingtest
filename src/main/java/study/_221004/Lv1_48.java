@@ -29,6 +29,14 @@ package study._221004;
    2) 보너스는 S, D, T 중 하나이다.
    3) 옵선은 *이나 # 중 하나이며, 없을 수도 있다.
 
+1	1S2D*3T	    37	11 * 2 + 22 * 2 + 33
+2	1D2S#10S	9	12 + 21 * (-1) + 101
+3	1D2S0T	    3	12 + 21 + 03
+4	1S*2T*3S	23	11 * 2 * 2 + 23 * 2 + 31
+5	1D#2S*3S	5	12 * (-1) * 2 + 21 * 2 + 31
+6	1T2D3D#	    -4	13 + 22 + 32 * (-1)
+7	1D2S3T*	    59	12 + 21 * 2 + 33 * 2
+
  */
 
 
@@ -36,7 +44,7 @@ public class Lv1_48 {
 
     public static void main(String[] args) {
 
-        int solution = solution("1D2S3T");
+        int solution = solution("1D2S#10S");
 
         System.out.println(solution);
 
@@ -46,6 +54,12 @@ public class Lv1_48 {
 
         int answer = 0;
 
+        int fstSplitNum = 0;
+
+        int fstSplit = 0;
+        int scdSplit = 0;
+        int thdSplit = 0;
+
         String splitArg = "";
 
         if(!dartResult.contains("*") && !dartResult.contains("#")) {        // '*', '#' 포함 x
@@ -54,19 +68,30 @@ public class Lv1_48 {
 
         } else {
 
-            for (int i = 0; i < dartResult.split("").length; i++) {
+            for(int i=0; i<dartResult.length(); i++) {
 
                 splitArg = dartResult.split("")[i];
-
-                if (splitArg.equals("*")) {
-
-                    answer = answer + anserResult(dartResult.split(splitArg)[0], splitArg);
-
+                if("*".equals(splitArg) || "#".equals(splitArg)) {
+                    if(fstSplit == 0) {
+                        fstSplit = i;
+                    } else if(scdSplit == 0) {
+                        scdSplit = i;
+                    } else {
+                        thdSplit = i;
+                    }
                 }
-
             }
         }
+
         return answer;
+    }
+
+    public static String getOption(String arg) {
+        if ("*".equals(arg) || "#".equals(arg)) {
+            return "Y";
+        } else {
+            return "N";
+        }
     }
 
     public static int anserResult(String totArg, String clsArg) {
