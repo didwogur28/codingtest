@@ -44,7 +44,7 @@ public class Lv1_48 {
 
     public static void main(String[] args) {
 
-        int solution = solution("1D2S#10S");
+        int solution = solution("1S2D*3T");
 
         System.out.println(solution);
 
@@ -54,78 +54,145 @@ public class Lv1_48 {
 
         int answer = 0;
 
-        int fstSplitNum = 0;
-
-        int fstSplit = 0;
-        int scdSplit = 0;
-        int thdSplit = 0;
-
         String splitArg = "";
+        String ancerArg = "";
+
+
+        String fstArg = "";
+        String scdArg = "";
+        String thdArg = "";
+
+        int fstResult = 0;
+        int scdResult = 0;
+        int thdResult = 0;
+
 
         if(!dartResult.contains("*") && !dartResult.contains("#")) {        // '*', '#' 포함 x
 
-            return anserResult(dartResult, "!");
+            for(int i=0; i<dartResult.length(); i++) {
+                splitArg += dartResult.split("")[i];
+
+                if("S".equals(dartResult.split("")[i]) || "D".equals(dartResult.split("")[i]) || "T".equals(dartResult.split("")[i])) {
+                    answer = answer + anserResult(splitArg);
+                    splitArg = "";
+                }
+            }
 
         } else {
+
+            dartResult = dartReSetting(dartResult);
 
             for(int i=0; i<dartResult.length(); i++) {
 
                 splitArg = dartResult.split("")[i];
-                if("*".equals(splitArg) || "#".equals(splitArg)) {
-                    if(fstSplit == 0) {
-                        fstSplit = i;
-                    } else if(scdSplit == 0) {
-                        scdSplit = i;
-                    } else {
-                        thdSplit = i;
-                    }
+
+                if(i!=2 && i!=5 && i!=8){
+                    ancerArg += splitArg;
                 }
+
+                if(i==2) {
+                    fstArg = splitArg;
+
+                    fstResult = optionCtrl(anserResult(ancerArg), fstArg);
+
+                    ancerArg = "";
+                }
+
+                if(i==5) {
+
+                    scdArg = splitArg;
+                    scdResult = optionCtrl(anserResult(ancerArg), scdArg);
+
+                    if(!"!".equals(fstArg)) {
+                        fstResult = optionCtrl(fstResult, scdArg);
+                    } else {
+                        if ("*".equals(scdArg)) {
+                            fstResult = optionCtrl(fstResult, scdArg);
+                        }
+                    }
+
+                    ancerArg = "";
+                }
+
+                if(i==8) {
+
+                    thdArg = scdArg;
+                    thdResult = optionCtrl(anserResult(ancerArg), thdArg);
+
+                    if(!"!".equals(scdArg)) {
+                        scdResult = optionCtrl(scdResult, thdArg);
+                    } else {
+                        if ("*".equals(thdArg)) {
+                            scdResult = optionCtrl(scdResult, thdArg);
+                        }
+                    }
+
+                    ancerArg = "";
+                }
+
             }
+            answer = fstResult + scdResult + thdResult;
         }
 
         return answer;
     }
 
-    public static String getOption(String arg) {
-        if ("*".equals(arg) || "#".equals(arg)) {
-            return "Y";
-        } else {
-            return "N";
+    public static String dartReSetting(String dartResult) {
+
+        String dartResult1 = "";
+        String anwser = "";
+        int chkCnt = 0;
+
+        for(int i=0; i<dartResult.length(); i++) {
+
+            anwser = dartResult.split("")[i];
+
+            if(chkCnt == 1) {
+                if(!"*".equals(anwser) && !"#".equals(anwser)) {
+                    dartResult1 = dartResult1 + "!";
+                }
+                chkCnt = 0;
+            }
+
+            if("S".equals(anwser) || "D".equals(anwser) || "T".equals(anwser)) {
+                chkCnt = 1;
+            }
+
+            dartResult1 += anwser;
         }
+
+        if(dartResult1.length() != 9) {
+            dartResult1 += "!";
+        }
+
+        return dartResult1;
     }
 
-    public static int anserResult(String totArg, String clsArg) {
+    public static int anserResult(String totArg) {
 
         int result = 0;
-        int num = 0;
 
-        String splitTotArg = "";
+        String splitTotArg = totArg.split("")[1];
 
-        for (int i=0; i<totArg.split("").length; i++) {
-
-            splitTotArg = totArg.split("")[i];
-
-            if(splitTotArg.equals("S") || splitTotArg.equals("D") || splitTotArg.equals("T")) {
-
-                if(splitTotArg.equals("S")) {
-                    num = (int) Math.pow(Integer.parseInt(totArg.split("")[i-1]), 1);
-                } else if(splitTotArg.equals("D")) {
-                    num = (int) Math.pow(Integer.parseInt(totArg.split("")[i-1]), 2);
-                } else if(splitTotArg.equals("T")) {
-                    num = (int) Math.pow(Integer.parseInt(totArg.split("")[i-1]), 3);
-                }
-
-                if(clsArg.equals("*")){
-                    num = num * (2);
-                }
-
-                if(clsArg.equals("#")){
-                    num = num * (-1);
-                }
-                result = result + num;
-            }
+        if(splitTotArg.equals("S")) {
+            result = (int) Math.pow(Integer.parseInt(totArg.split("")[0]), 1);
+        } else if(splitTotArg.equals("D")) {
+            result = (int) Math.pow(Integer.parseInt(totArg.split("")[0]), 2);
+        } else if(splitTotArg.equals("T")) {
+            result = (int) Math.pow(Integer.parseInt(totArg.split("")[0]), 3);
         }
 
+        return result;
+    }
+
+    public static int optionCtrl(int result, String arg) {
+
+        if("*".equals(arg)) {
+            return result*2;
+        }
+        if("#".equals(arg)) {
+            return result*(-1);
+        }
         return result;
     }
 }
