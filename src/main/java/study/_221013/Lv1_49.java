@@ -46,7 +46,7 @@ public class Lv1_49 {
 
     public static void main(String[] args) {
 
-        int[] solution = solution(new int[]{44, 1, 0, 0, 31, 25}, new int[]{31, 10, 45, 1, 6, 19});
+        int[] solution = solution(new int[]{0, 0, 0, 0, 0, 0}, new int[]{31, 10, 45, 1, 6, 19});
 
         for(int i=0; i<solution.length; i++) {
             System.out.println(solution[i]);
@@ -55,18 +55,50 @@ public class Lv1_49 {
     }
 
     public static  int[] solution(int[] lottos, int[] win_nums) {
+
         int[] answer = {};
+        int sameNum = 0;
+        int noNum = 0;
+
+        for(int i=0; i<lottos.length; i++) {
+
+            for(int j=0; j<win_nums.length; j++) {
+                if(lottos[i] == win_nums[j]) {
+                    sameNum ++;
+                }
+            }
+
+            if(lottos[i] == 0) {
+                noNum++;
+            }
+        }
+
+        answer = new int[2];
+
+        answer[0] = getGrade(sameNum+noNum);
+        answer[1] = getGrade(sameNum);
+
         return answer;
     }
 
+    public static int getGrade(int arg) {
+        int grade = 0;
+
+        switch (arg) {
+            case 6: grade = 1; break;
+            case 5: grade = 2; break;
+            case 4: grade = 3; break;
+            case 3: grade = 4; break;
+            case 2: grade = 5; break;
+            default: grade = 6; break;
+        }
+
+        return grade;
+    }
 }
 
 
 /*
-
-[44, 1, 0, 0, 31, 25]	[31, 10, 45, 1, 6, 19]	[3, 5]
-[0, 0, 0, 0, 0, 0]	[38, 19, 20, 40, 15, 25]	[1, 6]
-[45, 4, 35, 20, 3, 9]	[20, 9, 3, 45, 4, 35]	[1, 1]
 
  */
 
