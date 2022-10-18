@@ -39,71 +39,79 @@ public class Lv1_53 {
     public static String solution(int[] numbers, String hand) {
 
         String answer = "";
-        String getHand = "";
 
-        int nowHand = 0;
-        int leftHand = 0;
-        int rightHand = 0;
+        int left = 10;
+        int right = 12;
 
-        for(int i=0; i<numbers.length; i++) {
+        for (int i=0; i<numbers.length; i++) {
+            int num = numbers[i];
 
-            nowHand = numbers[i];
-
-            getHand = getMiddleHand(nowHand, leftHand, rightHand);
-
-            if(nowHand==1||nowHand==4||nowHand==7) {
+            if (num == 1 || num == 4 || num == 7) {
+                //왼손 범위
                 answer += "L";
-                leftHand = nowHand;
-            } else if(nowHand==3||nowHand==6||nowHand==9) {
+                left = num;
+            } else if (num == 3 || num == 6 || num == 9) {
+                //오른손 범위
                 answer += "R";
-                rightHand = nowHand;
+                right = num;
             } else {
+                //가운데일 경우
+                int leftFinger = cal(left, num);
+                int rightFinger = cal(right, num);
+
+                if (leftFinger > rightFinger) {
+                    //왼손이 거리가 더 멀면 오른손
+                    answer += "R";
+                    right = num;
+                } else if (leftFinger < rightFinger) {
+                    //오른손이 거리가 더 멀면 왼손
+                    answer += "L";
+                    left = num;
+                } else {
+                    if (hand.equals("right")) {
+                        answer += "R";
+                        right = num;
+                    } else {
+                        answer += "L";
+                        left = num;
+                    }
+                }
 
             }
-
-
         }
 
         return answer;
     }
 
-    public static String getMiddleHand(int arg, int lArg, int rArg) {
+    public static int cal(int location, int num) {
 
-        String result = "";
-        int lPlus = 0;
-        int rPlus = 0;
-
-        if(arg == 0) {
-            
-        } else {
-
-            if (abs((arg - 1) - lArg) == 0) {
-                lPlus = lPlus + 1;
-            } else if (abs((arg - 1) - lArg) == 3) {
-                lPlus = lPlus + 2;
-            } else if (abs((arg - 1) - lArg) == 6) {
-                lPlus = lPlus + 3;
-            }
-
-            if (abs((arg - 1) - rArg) == 0) {
-                rPlus = rPlus + 1;
-            } else if (abs((arg - 1) - rArg) == 3) {
-                rPlus = rPlus + 2;
-            } else if (abs((arg - 1) - rArg) == 6) {
-                rPlus = rPlus + 3;
-            }
+        //왼손 or 오른손 위치가 0일때 11 대입
+        if (location == 0) {
+            location = 11;
         }
+
+        //다음 숫자 위치가 0일때 11 대입
+        if (num == 0) {
+            num = 11;
+        }
+
+        //왼손 or 오른손의 X좌표, Y좌표 구하기
+        int locationX = (location - 1)/3;
+        int locationY = (location - 1)%3;
+
+        //다음 숫자의 X좌표, Y좌표 구하기
+        int numX = (num - 1)/3;
+        int numY = (num - 1)%3;
+
+        //절대값으로 거리 구하기
+        int result = Math.abs(locationX - numX) + Math.abs(locationY - numY);
+
         return result;
-
     }
-
 }
 
 /*
 
-[1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5]	"right"	"LRLLLRLLRRL"
-[7, 0, 8, 2, 8, 3, 1, 5, 7, 6, 2]	"left"	"LRLLRRLLLRR"
-[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]	"right"	"LLRLLRLLRL"
 
  */
 
