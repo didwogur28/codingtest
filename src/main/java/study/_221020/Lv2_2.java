@@ -25,43 +25,43 @@ public class Lv2_2 {
 
     public static void main(String[] args) {
 
-        String solution = solution("3people unFollowed me");
-        System.out.print(solution);
+        String solution = solution("for the last week");
+        System.out.print("/"+solution+"/");
     }
 
     public static String solution(String s) {
 
+        String chgS = s.replaceAll(" ", "@");
+
         String answer = "";
-        int nullChk = 0;
+        String splitArg = "";
+        int upCaseChk = 0;
 
-        for(int i=0; i<s.length(); i++) {
-            if(s.split("").equals("")) {
-                answer += " ";
-            }
-        }
+        for(int i=0; i<chgS.split("").length; i++) {
 
-        for(String str : s.split(" ")) {
-            if(answer.equals("")) {
+            splitArg = chgS.split("")[i];
+
+            if(splitArg.equals("@")) {
                 answer += " ";
-                nullChk++;
-            }else {
-            }
-            for(int i=0; i<str.split("").length; i++) {
-                if(i==0) {
-                    answer += str.split("")[i].toUpperCase(Locale.ROOT);
+                upCaseChk = 1;
+            } else {
+                if(upCaseChk==1) {
+                    answer += splitArg.toUpperCase(Locale.ROOT);
+
+                } else if (i == 0){
+                    answer += splitArg.toUpperCase(Locale.ROOT);
                 } else {
-                    answer += str.split("")[i].toLowerCase(Locale.ROOT);
+                    answer += splitArg.toLowerCase(Locale.ROOT);
                 }
+                upCaseChk = 0;
             }
         }
+
         return answer;
     }
 }
 
 /*
-
-"3people unFollowed me"	"3people Unfollowed Me"
-"for the last week"	"For The Last Week"
 
  */
 
