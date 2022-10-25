@@ -16,10 +16,7 @@ package study._221024;
 
  */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Lv2_4 {
 
@@ -33,29 +30,32 @@ public class Lv2_4 {
 
         boolean answer = true;
 
-        List<String> barList = new ArrayList<String>();
+        Stack<Character> stack = new Stack<Character>();
 
-        for(long i=0; i<s.length(); i++) {
-            barList.add(String.valueOf(s.charAt((int) i)));
+        for(int i=0; i<s.length(); i++){
+
+            if(s.charAt(i) == '(') {
+
+                stack.push('(');
+            } else {
+
+                if(stack.isEmpty()) {
+
+                    return false;
+                } else {
+
+                    stack.pop();
+                }
+            }
         }
 
-        if(!barList.get(0).equals("(") && !barList.get(barList.size()-1).equals(")")) {
-            return false;
-        }
+        answer = (stack.isEmpty()) ? true : false;
 
-        int lBar = Collections.frequency(barList, "(");
-        int rBar = Collections.frequency(barList, ")");
-
-        return lBar == rBar ? true : false;
+        return answer;
     }
 }
 
 /*
-
-"()()"	true
-"(())()"	true
-")()("	false
-"(()("	false
 
  */
 
