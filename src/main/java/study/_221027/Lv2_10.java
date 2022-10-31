@@ -19,11 +19,16 @@ package study._221027;
 
  */
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
+
 public class Lv2_10 {
 
     public static void main(String[] args) {
 
-        int solution = solution("baabaa");
+        int solution = solution("cdcd");
 
         System.out.print(solution);
 
@@ -31,20 +36,26 @@ public class Lv2_10 {
     }
 
     public static int solution(String s) {
+
         int answer = -1;
+        Stack<Character> stack = new Stack<>();
 
-        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-        System.out.println("Hello Java");
+        for (int i=0; i < s.length(); i++){
+            char c = s.charAt(i);
+            if(!stack.isEmpty() && stack.peek() == c){
+                stack.pop();
+            }else{
+                stack.push(c);
+            }
 
+        }
+        answer = stack.isEmpty() ? 1 : 0;
         return answer;
     }
 
 }
 
 /*
-
-baabaa	1
-cdcd	0
 
  */
 
