@@ -53,6 +53,7 @@ public class Lv2_11 {
     }
 
     public static int solution(int distance, int[][] scope, int[][] times) {
+        
         int answer = 0;
         return answer;
     }
