@@ -21,7 +21,7 @@ package study._221028;
    두 번째 경비병이 3초간의 휴식을 마치고 근무를 시작하므로 화랑이는 붙잡히게 됩니다.
      첫 번째 경비병의 상태	근무	근무	휴식	휴식	휴식	휴식	휴식	근무	근무	휴식
      두 번째 경비병의 상태	근무	근무	근무	근무	휴식	휴식	휴식	근무	근무	근무
-     화랑이의 위치	        1	2	3	4	5	6
+     화랑이의 위치	        1	2	3	4	5	6	7	8	9	10
    화랑이의 현재 위치와 적군 기지 사이의 거리를 나타내는 정수 distance,
    각 경비병의 감시 구간을 담은 2차원 정수 배열 scope, 같은 순서로 각 경비병의 근무 시간과 휴식 시간을 담은 2차원 정수 배열 times가 주어질 때,
    화랑이가 경비를 피해 최대로 이동할 수 있는 거리를 return 하는 solution 함수를 완성하세요.
@@ -39,7 +39,11 @@ package study._221028;
 
  */
 
-import java.util.Stack;
+import java.text.CollationElementIterator;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Lv2_11 {
 
@@ -53,17 +57,36 @@ public class Lv2_11 {
     }
 
     public static int solution(int distance, int[][] scope, int[][] times) {
-        
-        int answer = 0;
-        return answer;
+
+        List<Integer> ans = new ArrayList<Integer>();
+
+        for(int i=0; i<scope.length; i++) {
+            int alltime = times[i][0] + times[i][1];
+
+            Arrays.sort(scope[i]);
+
+            for(int j=scope[i][0]; j<=scope[i][1]; j++) {
+
+                if(j%alltime == 0) {
+                    continue;
+                } else if(j%alltime <= times[i][0]) {
+                    ans.add(j);
+                }
+            }
+        }
+
+        Collections.sort(ans);
+
+        if(ans.size() > 0) {
+            return ans.get(0);
+        }
+
+        return distance;
     }
 
 }
 
 /*
-
-10	[[3, 4], [5, 8]]	[[2, 5], [4, 3]]	8
-12	[[7, 8], [4, 6], [11, 10]]	[[2, 2], [2, 4], [3, 3]]	12
 
  */
 
