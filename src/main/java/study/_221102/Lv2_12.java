@@ -48,11 +48,10 @@ public class Lv2_12 {
         int cnt = 0;
 
         Set<Integer> oneSplit = new HashSet<Integer>();
-
+        oneSplit = Arrays.stream(topping).boxed().collect(Collectors.toSet());
         while(topping.length > cnt) {
 
             Set<Integer> twoSplit = new HashSet<Integer>();
-            oneSplit = Arrays.stream(topping).boxed().collect(Collectors.toSet());
 
             for(int i=0; i<topping.length; i++) {
 
