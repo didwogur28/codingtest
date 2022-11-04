@@ -45,26 +45,28 @@ public class Lv2_12 {
     public static int solution(int[] topping) {
 
         int answer = 0;
-        int cnt = 0;
 
-        Set<Integer> oneSplit = new HashSet<Integer>();
-        oneSplit = Arrays.stream(topping).boxed().collect(Collectors.toSet());
-        while(topping.length > cnt) {
+        Map<Integer, Integer> map1 = new HashMap<>();
+        Map<Integer, Integer> map2 = new HashMap<>();
 
-            Set<Integer> twoSplit = new HashSet<Integer>();
+        for (int i = 0; i < topping.length; i++) {
+            map2.put(topping[i], map2.getOrDefault(topping[i], 0) + 1);
+        }
 
-            for(int i=0; i<topping.length; i++) {
+        for (int i = 0; i < topping.length - 1; i++) {
 
-                oneSplit.remove(topping[i]);
-                twoSplit.add(topping[i]);
+            map1.put(topping[i], map1.getOrDefault(topping[i], 0) + 1);
 
+            int cnt = map2.getOrDefault(topping[i], 0);
+            if (cnt > 1) {
+                map2.put(topping[i], cnt - 1);
+            } else {
+                map2.remove(topping[i]);
             }
 
-            if(oneSplit.size() == twoSplit.size()) {
-                answer++;
+            if (map1.keySet().size() == map2.keySet().size()) {
+                answer += 1;
             }
-
-            cnt ++;
         }
 
         return answer;
