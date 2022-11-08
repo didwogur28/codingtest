@@ -35,6 +35,11 @@ package study._221107;
 
  */
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
+
 public class Lv2_14 {
 
     public static void main(String[] args) {
@@ -45,14 +50,48 @@ public class Lv2_14 {
 
     public static int solution(int[] order) {
         int answer = 0;
+
+        Stack<Integer> saveOrder = new Stack<Integer>();
+
+        int defaultOrder = 1;
+        int wantOrderIdx = 0;
+
+        while (true) {
+
+            if (!saveOrder.isEmpty() && order[wantOrderIdx] == saveOrder.peek()) {
+                answer++;
+
+                wantOrderIdx++;
+                saveOrder.pop();
+
+                continue;
+            }
+
+            if (defaultOrder > order.length)
+                break;
+
+            if (order[wantOrderIdx] == defaultOrder) {
+                answer++;
+
+                wantOrderIdx++;
+                defaultOrder++;
+
+                continue;
+            }
+
+            saveOrder.push(defaultOrder);
+            defaultOrder++;
+        }
+
         return answer;
     }
 }
 
 /*
 
-[4, 3, 1, 2, 5]	2
-[5, 4, 3, 2, 1]	5
+    - stack() 
+     > peek: 가장 최근에 추가 된 요소 조회
+     > pop: 가장 최근에 추가 된 요소 삭제
 
  */
 
