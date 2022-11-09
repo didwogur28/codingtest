@@ -21,25 +21,42 @@ package study._221108;
 
  */
 
-import java.util.Stack;
+import java.util.*;
 
 public class Lv2_15 {
 
     public static void main(String[] args) {
 
-        int solution = solution(new int[]{4, 3, 1, 2, 5});
+        int solution = solution(new int[]{7,9,1,1,4});
         System.out.print(solution);
     }
 
     public static int solution(int[] elements) {
-        int answer = 0;
-        return answer;
+
+        int[] newElements = new int[elements.length * 2];
+
+        for(int i = 0; i < elements.length; i++) {
+            newElements[i] = newElements[i + elements.length] = elements[i];
+        }
+
+        Set<Integer> set = new HashSet<>();
+
+        for(int i = 1; i <= elements.length; i++) {
+            for(int j = 0; j < elements.length; j++) {
+                set.add(Arrays.stream(newElements, j, j+i).sum());
+            }
+        }
+
+        return set.size();
     }
+
 }
 
 /*
 
-[7,9,1,1,4]	18
+    - Arrays.stream(arr, str, end);
+     > arr 배열에서 str번째 부터 end-1번째 까지 추출
+
  */
 
 
