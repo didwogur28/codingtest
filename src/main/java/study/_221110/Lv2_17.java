@@ -41,7 +41,7 @@ public class Lv2_17 {
 
     public static void main(String[] args) {
 
-        int solution = solution(new String[]{"banana", "apple", "rice", "pork", "pot"}, new int[]{3, 2, 2, 2, 1}, new String[]{"chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"});
+        int solution = solution(new String[]{"apple"}, new int[]{10}, new String[]{"banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana"});
         System.out.println(solution);
     }
 
@@ -50,7 +50,7 @@ public class Lv2_17 {
         int answer = 0;
         int day = 0;
 
-        while (day < discount.length-day) {
+        while (day+9 < discount.length) {
 
             List<Integer> cntList = Arrays.stream(number).boxed().collect(Collectors.toList());
 
@@ -59,6 +59,7 @@ public class Lv2_17 {
                 for(int j=0; j<want.length; j++) {
                     if(want[j].equals(discount[i])) {
                         cntList.set(j, cntList.get(j)-1);
+                        break;
                     }
                 }
             }
@@ -85,9 +86,6 @@ public class Lv2_17 {
 }
 
 /*
-
-["banana", "apple", "rice", "pork", "pot"]	    [3, 2, 2, 2, 1]	    ["chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"]	3
-["apple"]	                                    [10]	            ["banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana", "banana"]	0
 
  */
 
