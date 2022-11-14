@@ -33,49 +33,17 @@ public class Lv2_18 {
 
     public static void main(String[] args) {
 
-        int solution = solution(new int[]{10, 17}, new int[]{5, 20});
+        int solution = solution(new int[]{14, 35, 119}, new int[]{18, 30, 102});
         System.out.println(solution);
     }
 
     public static int solution(int[] arrayA, int[] arrayB) {
 
         int answer = 0;
-        int num = 0;
-        boolean isPrime = true;
 
         List<Integer> listA = Arrays.stream(arrayA).boxed().collect(Collectors.toList());
         List<Integer> listB = Arrays.stream(arrayB).boxed().collect(Collectors.toList());
-        List<Integer> listAll = new ArrayList<Integer>();
 
-        listA.addAll(listB);
-
-        listAll = listA;
-
-        listA = new ArrayList<Integer>();
-        listB = new ArrayList<Integer>();
-
-        for(int i=0; i<listAll.size(); i++) {
-
-            num = listAll.get(i);
-
-            for(int j=2; j<=num/2; j++) {
-
-                if(num%j == 0) {
-                    isPrime = false;
-                    break;
-                }
-            }
-
-            if(isPrime) {
-                listB.add(num);
-            } else {
-                listA.add(num);
-            }
-
-            isPrime = true;
-        }
-
-        Collections.sort(listA);
         for(int i=2; i<listA.get(listA.size()-1); i++) {
 
             int chkNum = 0;
@@ -102,15 +70,7 @@ public class Lv2_18 {
                 }
             }
         }
-        //5 10 17 20
-        /*
-        * 5 10      17 20
-        * 5 17      10 20
-        * 5 20      10 17
-        * 10 17     5  20
-        * 10 20     5  17
-        * 17 20     5  10
-        * */
+
         return answer;
     }
 
