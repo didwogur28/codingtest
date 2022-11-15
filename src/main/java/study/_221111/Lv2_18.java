@@ -40,47 +40,56 @@ public class Lv2_18 {
     public static int solution(int[] arrayA, int[] arrayB) {
 
         int answer = 0;
+        int first = arrayA.length > 1 ? gcd(Math.max(arrayA[0], arrayA[1]), Math.min(arrayA[0], arrayA[1])) : arrayA[0];
+        int second = arrayB.length > 1 ? gcd(Math.max(arrayB[0], arrayB[1]), Math.min(arrayB[0], arrayB[1])) : arrayB[0];
 
-        List<Integer> listA = Arrays.stream(arrayA).boxed().collect(Collectors.toList());
-        List<Integer> listB = Arrays.stream(arrayB).boxed().collect(Collectors.toList());
+        for(int i = 2; i <= first; i++){
 
-        for(int i=2; i<listA.get(listA.size()-1); i++) {
+            if(first % i == 0){
+                boolean chk = true;
 
-            int chkNum = 0;
+                for(int j = 0; j < arrayA.length && chk; j++)
+                    if(arrayA[j] % i != 0)
+                        chk = false;
 
-            for(int j=0; j<listA.size(); j++) {
+                for(int j = 0; j < arrayB.length && chk; j++)
+                    if(arrayB[j] % i == 0)
+                        chk = false;
 
-                if(listA.get(j) % i != 0) {
-                    chkNum = 1;
-                    break;
-                }
+                if(chk)
+                    answer = Math.max(answer, i);
             }
+        }
 
-            if(chkNum == 0) {
-                for(int j=0; j<listB.size(); j++) {
+        for(int i = 2; i <= second; i++){
+            if(second % i == 0){
+                boolean chk = true;
 
-                    if(listB.get(j) % i == 0) {
-                        chkNum = 1;
-                        break;
-                    }
-                }
+                for(int j = 0; j < arrayA.length && chk; j++)
+                    if(arrayA[j] % i == 0)
+                        chk = false;
 
-                if(chkNum == 0) {
-                    answer = i;
-                }
+                for(int j = 0; j < arrayB.length && chk; j++)
+                    if(arrayB[j] % i != 0)
+                        chk = false;
+
+                if(chk)
+                    answer = Math.max(answer, i);
             }
         }
 
         return answer;
     }
 
+    public static int gcd(int a, int b){
+
+        if(a % b == 0) return b;
+        else return gcd(b, a % b);
+
+    }
 }
 
 /*
-
-[10, 17]	[5, 20]	0
-[10, 20]	[5, 17]	10
-[14, 35, 119]	[18, 30, 102]	7
 
  */
 
