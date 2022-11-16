@@ -40,6 +40,11 @@ package study._221115;
  */
 
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.stream.Collectors;
+
 public class Lv2_19 {
 
     public static void main(String[] args) {
@@ -49,8 +54,56 @@ public class Lv2_19 {
     }
 
     public static int solution(int[] queue1, int[] queue2) {
-        int answer = -2;
-        return answer;
+
+        int answer = 0;
+
+        long sum1 = 0;
+        long sum2 = 0;
+        long totalSum = 0;
+
+        Queue<Long> queueList1 = new LinkedList<Long>();
+        Queue<Long> queueList2 = new LinkedList<Long>();
+
+        for(int i=0; i<queue1.length; i++) {
+
+            sum1 += queue1[i];
+            sum2 += queue2[i];
+            totalSum += queue1[i] + queue2[i];
+
+            queueList1.add((long) queue1[i]);
+            queueList2.add((long) queue2[i]);
+        }
+
+        if(totalSum % 2 != 0) return -1;
+
+        totalSum /= 2;
+
+        while (answer < (queue1.length*3)) {
+
+            if(sum1 > sum2) {
+                queueList2.add(queueList1.peek());
+                sum1 -= queueList1.peek();
+                sum2 += queueList1.poll();
+
+            } else if(sum1 < sum2) {
+                queueList1.add(queueList2.peek());
+                sum2 -= queueList2.peek();
+                sum1 += queueList2.poll();
+
+            } else {
+
+                if(sum1 == totalSum) {
+                    return answer;
+                }
+
+                break;
+            }
+
+            answer++;
+
+        }
+
+        return -1;
     }
 }
 
