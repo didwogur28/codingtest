@@ -67,7 +67,12 @@ public class Lv2_20 {
     }
 
     public static int[] solution(int n, int[] info) {
+
         int[] answer = {};
+
+        for(int i=0; i<info.length; i++) {
+
+        }
         return answer;
     }
 }
