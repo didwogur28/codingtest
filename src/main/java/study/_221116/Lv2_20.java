@@ -71,6 +71,7 @@ public class Lv2_20 {
         int[] answer = {};
 
         for(int i=0; i<info.length; i++) {
+            int a = info[i];
 
         }
         return answer;
