@@ -68,13 +68,45 @@ public class Lv2_20 {
 
     public static int[] solution(int n, int[] info) {
 
-        int[] answer = {};
+        int[] answer = new int[10];
+
+        int cnt = n;
+        int score = 0;
+        int target = 10;
+        int apcSum = 0;
+        int lionSum = 0;
+        int totSum = 0;
 
         for(int i=0; i<info.length; i++) {
-            int a = info[i];
 
+            apcSum += (target*info[i]);
+            target--;
         }
-        return answer;
+
+        target = 10;
+
+        while(true) {
+
+            for(int i=0; i<info.length; i++) {
+
+                score = info[i];
+
+                if(cnt > 0) {
+                    answer[i] = score+1;
+                    lionSum += (target*answer[i]);
+
+                }
+                cnt -= (score+1);
+                target--;
+            }
+
+            if(apcSum < lionSum) {
+                totSum = lionSum;
+            }
+
+            return answer;
+        }
+        
     }
 }
 
