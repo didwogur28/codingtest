@@ -97,7 +97,7 @@ public class Lv2_20 {
 
                 }
                 cnt -= (score+1);
-                target--;
+                
             }
 
             if(apcSum < lionSum) {
