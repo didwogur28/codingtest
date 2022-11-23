@@ -51,6 +51,7 @@ package study._221116;
  */
 
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -68,54 +69,68 @@ public class Lv2_20 {
 
     public static int[] solution(int n, int[] info) {
 
-        int[] answer = new int[10];
+        int[] answer = new int[11];
+        int[] tmp = new int[11];
+        int maxDiff = 0;
 
-        int cnt = n;
-        int score = 0;
-        int target = 10;
-        int apcSum = 0;
-        int lionSum = 0;
-        int totSum = 0;
+        for(int subset=1; subset<(1 << 10); subset++) {
 
-        for(int i=0; i<info.length; i++) {
+            int ryan = 0, apeach = 0, cnt = 0;
 
-            apcSum += (target*info[i]);
-            target--;
-        }
-
-        target = 10;
-
-        while(true) {
-
-            for(int i=0; i<info.length; i++) {
-
-                score = info[i];
-
-                if(cnt > 0) {
-                    answer[i] = score+1;
-                    lionSum += (target*answer[i]);
-
+            for(int i=0; i<10; ++i) {
+                if ((subset & (1 << i)) != 0) {
+                    ryan += 10 - i;
+                    tmp[i] = info[i]+1;
+                    cnt += tmp[i];
+                } else {
+                    tmp[i] = 0;
+                    if(info[i] > 0) {
+                        apeach += 10 -i;
+                    }
                 }
-                cnt -= (score+1);
-                
             }
 
-            if(apcSum < lionSum) {
-                totSum = lionSum;
-            }
+            if(cnt > n) continue;
+            tmp[10] = n - cnt;
 
-            return answer;
+            if(ryan - apeach == maxDiff) {
+
+                for(int i=10; i>=0; i--) {
+
+                    if(tmp[i] > answer[i]) {
+                        maxDiff = ryan - apeach;
+                        answer = Arrays.copyOf(tmp, tmp.length);
+                        break;
+                    } else if (tmp[i] < answer[i]) {
+                        break;
+                    }
+                }
+            } else if(ryan - apeach > maxDiff) {
+                maxDiff = ryan - apeach;
+                answer = Arrays.copyOf(tmp, tmp.length);
+            }
         }
-        
+
+        if(maxDiff == 0) {
+            return new int[]{-1};
+        }
+
+        return answer;
     }
 }
 
 /*
 
-5	[2,1,1,1,0,0,0,0,0,0,0]	[0,2,2,0,1,0,0,0,0,0,0]
-1	[1,0,0,0,0,0,0,0,0,0,0]	[-1]
-9	[0,0,1,2,0,1,1,1,1,1,1]	[1,1,2,0,1,2,2,0,0,0,0]
-10	[0,0,0,0,0,0,0,0,3,4,3]	[1,1,1,1,1,1,1,1,0,0,2]
+    - 비트연산자
+     > '>>' : 비트 값을 오른쪽으로 이동 한 후 왼쪽 빈 공간을 0으로 채움
+     > '<<' : 비트 값을 왼쪽으로 이동 한 후 오른쪽 빈 공간을 0으로 채움
+     
+    - 낮은 점수를 많이 쏜 승리 자 찾기 -> 2진수를 사용해서 처리
+     > 0000000001 ~ 1111111111 전체 검색
+     > 1은 승리 0은 패배
+
+     어피치가 2,1,1,1,0,0,0,0,0,0,0를 쐈다고 했을떄
+     > 0000000001 일때는 3 0 0 0 0 0 0 0 0 0 2 -> 10점만 승리이기때문에 10점 승을 만들고 나머지 화살 2발은 0점으로 처리
 
  */
 
