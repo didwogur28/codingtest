@@ -67,6 +67,8 @@ package study._221123;
 
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Lv2_21 {
 
@@ -81,8 +83,83 @@ public class Lv2_21 {
     }
 
     public static int[] solution(int[] fees, String[] records) {
-        int[] answer = {};
+
+        Set<String> carNumSet = new HashSet<String>();
+
+        for(int i=0; i<records.length; i++) {
+            carNumSet.add(records[i].split(" ")[1]);
+        }
+
+        int[] answer = new int[carNumSet.size()];
+        int answerSize = 0;
+        int chkNewCar = 0;
+
+        int inChar = 0;
+        int chargeMin = 0;
+        String carNum = "";
+
+        while (answerSize < carNumSet.size()) {
+
+            for(int i=0; i<records.length; i++) {
+
+                if(chkNewCar == 0) {
+                    carNum = records[i].split(" ")[1];
+                    chkNewCar = 1;
+                    answerSize++;
+                }
+
+                if(carNum.equals(records[i].split(" ")[1])) {
+
+                    if("IN".equals(records[i].split(" ")[2])) {
+
+                        inChar = chgTimeToMin(records[i].split(" ")[0]);
+                    } else if("OUT".equals(records[i].split(" ")[2])){
+
+                        inChar = (chgTimeToMin(records[i].split(" ")[0]) - inChar);
+                        chargeMin += inChar;
+
+                        inChar = 0;
+                    }
+
+                    if(chargeMin == 0) {
+                        inChar = (chgTimeToMin("23:59") - inChar);
+                        chargeMin += inChar;
+
+                        inChar = 0;
+                    }
+                }
+            }
+
+            answer[answerSize-1] = getCharge(chargeMin, fees[0], fees[1], fees[2], fees[3]);
+            chkNewCar = 0;
+        }
+
         return answer;
+    }
+
+    public static int chgTimeToMin(String time) {
+
+        String hour = time.split(":")[0];
+        String min = time.split(":")[1];
+
+        return (Integer.parseInt(hour) * 60) + Integer.parseInt(min);
+    }
+
+    public static int getCharge(int minute, int baseMin, int baseCharge, int addMin, int addCharge) {
+
+        int charge = 0;
+        int remainMin = 0;
+
+        if(minute > baseMin) {
+            charge += baseCharge;
+
+            remainMin = minute - baseMin;
+            charge += ((remainMin / addMin) + ((remainMin % addMin) > 0 ? 1 : 0)) * addCharge;
+        } else {
+            charge = baseCharge;
+        }
+
+        return charge;
     }
 }
 
