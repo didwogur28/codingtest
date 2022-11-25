@@ -149,6 +149,7 @@ public class Lv2_21 {
 
         int charge = 0;
         int remainMin = 0;
+        int reMin = 0;
 
         if(minute > baseMin) {
             charge += baseCharge;
