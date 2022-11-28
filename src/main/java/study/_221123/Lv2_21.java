@@ -66,9 +66,7 @@ package study._221123;
  */
 
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Lv2_21 {
 
@@ -91,49 +89,41 @@ public class Lv2_21 {
         }
 
         int[] answer = new int[carNumSet.size()];
-        int answerSize = 0;
-        int chkNewCar = 0;
 
-        int inChar = 0;
-        int chargeMin = 0;
-        String carNum = "";
 
-        while (answerSize < carNumSet.size()) {
+        /*
+           5961
+           05:34 -> 07:59   145 : 02:25
+           22:59 -> 23:00   1   : 00:01
 
-            for(int i=0; i<records.length; i++) {
+           => 02:26
 
-                if(chkNewCar == 0) {
-                    carNum = records[i].split(" ")[1];
-                    chkNewCar = 1;
-                    answerSize++;
-                }
+           0000
+           06:00 -> 06:34
+           18:59 -> 23:59
 
-                if(carNum.equals(records[i].split(" ")[1])) {
+           0148
+           07:59 -> 19:09
+        */
 
-                    if("IN".equals(records[i].split(" ")[2])) {
+        List<Map<String, Object>> carInfo = new ArrayList<Map<String, Object>>();
 
-                        inChar = chgTimeToMin(records[i].split(" ")[0]);
-                    } else if("OUT".equals(records[i].split(" ")[2])){
+        int carLengChk = 0;
+        String carName = "";
+        int carInOutTime = 0;
 
-                        inChar = (chgTimeToMin(records[i].split(" ")[0]) - inChar);
-                        chargeMin += inChar;
+        while (carLengChk < carNumSet.size()) {
 
-                        inChar = 0;
-                    }
+            Map<String, Object> carInfoMap = new HashMap<String, Object>();
 
-                    if(chargeMin == 0) {
-                        inChar = (chgTimeToMin("23:59") - inChar);
-                        chargeMin += inChar;
+            for (int i = 0; i < records.length; i++) {
 
-                        inChar = 0;
-                    }
-                }
+                carInOutTime = chgTimeToMin(records[i].split(" ")[1]);
+                carName = records[i].split(" ")[1];
+
+                carInfoMap.put(carName, Integer.parseInt((String) carInfoMap.get(carName)) + (carInOutTime * (records[i].split(" ")[2].equals("IN") ? -1 : 1)));
             }
-
-            answer[answerSize-1] = getCharge(chargeMin, fees[0], fees[1], fees[2], fees[3]);
-            chkNewCar = 0;
         }
-
         return answer;
     }
 
