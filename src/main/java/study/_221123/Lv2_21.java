@@ -96,14 +96,17 @@ public class Lv2_21 {
            05:34 -> 07:59   145 : 02:25
            22:59 -> 23:00   1   : 00:01
 
-           => 02:26
+           => 146
 
            0000
            06:00 -> 06:34
            18:59 -> 23:59
 
+           => 334
+
            0148
            07:59 -> 19:09
+           => 670
         */
 
         List<Map<String, Object>> carInfo = new ArrayList<Map<String, Object>>();
@@ -112,18 +115,24 @@ public class Lv2_21 {
         String carName = "";
         int carInOutTime = 0;
 
-        while (carLengChk < carNumSet.size()) {
+        Map<String, Object> carInfoMap = new HashMap<String, Object>();
 
-            Map<String, Object> carInfoMap = new HashMap<String, Object>();
+        for (int i = 0; i < records.length; i++) {
 
-            for (int i = 0; i < records.length; i++) {
+            carInOutTime = chgTimeToMin(records[i].split(" ")[0]);
+            // carName CHK
+            carName = records[i].split(" ")[1];
 
-                carInOutTime = chgTimeToMin(records[i].split(" ")[1]);
-                carName = records[i].split(" ")[1];
+            carInfoMap.put(carName, Integer.parseInt(String.valueOf(carInfoMap.get(carName) != null ? carInfoMap.get(carName) : "0")) + (carInOutTime * (records[i].split(" ")[2].equals("IN") ? -1 : 1)));
 
-                carInfoMap.put(carName, Integer.parseInt((String) carInfoMap.get(carName)) + (carInOutTime * (records[i].split(" ")[2].equals("IN") ? -1 : 1)));
-            }
+//            if(Integer.parseInt(String.valueOf(carInfoMap.get(carName))) < 0) {
+//                carInfoMap.put(carName, Integer.parseInt(String.valueOf(carInfoMap.get(carName))) + chgTimeToMin("23:59"));
+//            }
         }
+
+
+        System.out.println(carInfoMap);
+
         return answer;
     }
 
