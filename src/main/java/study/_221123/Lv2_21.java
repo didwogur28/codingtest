@@ -125,9 +125,9 @@ public class Lv2_21 {
 
             carInfoMap.put(carName, Integer.parseInt(String.valueOf(carInfoMap.get(carName) != null ? carInfoMap.get(carName) : "0")) + (carInOutTime * (records[i].split(" ")[2].equals("IN") ? -1 : 1)));
 
-//            if(Integer.parseInt(String.valueOf(carInfoMap.get(carName))) < 0) {
-//                carInfoMap.put(carName, Integer.parseInt(String.valueOf(carInfoMap.get(carName))) + chgTimeToMin("23:59"));
-//            }
+            if(Integer.parseInt(String.valueOf(carInfoMap.get(carName))) < 0) {
+                carInfoMap.put(carName, Integer.parseInt(String.valueOf(carInfoMap.get(carName))) + chgTimeToMin("23:59"));
+            }
         }
 
 
