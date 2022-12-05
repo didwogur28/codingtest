@@ -121,6 +121,7 @@ public class Lv2_21 {
 
             carInOutTime = chgTimeToMin(records[i].split(" ")[0]);
             // carName CHK
+            // carCharge CHK
             carName = records[i].split(" ")[1];
 
             carInfoMap.put(carName, Integer.parseInt(String.valueOf(carInfoMap.get(carName) != null ? carInfoMap.get(carName) : "0")) + (carInOutTime * (records[i].split(" ")[2].equals("IN") ? -1 : 1)));
