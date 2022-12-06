@@ -67,12 +67,13 @@ package study._221123;
 
 
 import java.util.*;
+import java.util.stream.Collector;
 
 public class Lv2_21 {
 
     public static void main(String[] args) {
 
-        int[] solution = solution(new int[]{180, 5000, 10, 600}, new String[]{"05:34 5961 IN", "06:00 0000 IN", "06:34 0000 OUT", "07:59 5961 OUT", "07:59 0148 IN", "18:59 0000 IN", "19:09 0148 OUT", "22:59 5961 IN", "23:00 5961 OUT"});
+        int[] solution = solution(new int[]{1, 10, 1, 11}, new String[]{"00:00 1234 IN", "00:02 1234 OUT"});
 
         for(int s : solution) {
             System.out.print(s+" ");
@@ -82,85 +83,42 @@ public class Lv2_21 {
 
     public static int[] solution(int[] fees, String[] records) {
 
-        Set<String> carNumSet = new HashSet<String>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        Map<Integer, Integer> map1 = new HashMap<>(); // 차번호, 입장시간
+        Map<Integer, Integer> map2 = new HashMap<>(); // 차번호 중복체크, 주차시간
 
-        for(int i=0; i<records.length; i++) {
-            carNumSet.add(records[i].split(" ")[1]);
-        }
+        int exit = 23 * 60 + 59;
+        int baseTime = fees[0], baseFee = fees[1], fee = fees[3];
+        double time = fees[2]; // 반올림 해줘야 하므로 double
 
-        int[] answer = new int[carNumSet.size()];
+        for (String r : records) {  //map1에 records 입력
+            int carNum = Integer.valueOf(r.substring(6, 10));
+            int min = Integer.valueOf(r.substring(3, 5))
+                    + Integer.valueOf(r.substring(0, 2)) * 60;
 
-
-        /*
-           5961
-           05:34 -> 07:59   145 : 02:25
-           22:59 -> 23:00   1   : 00:01
-
-           => 146
-
-           0000
-           06:00 -> 06:34
-           18:59 -> 23:59
-
-           => 334
-
-           0148
-           07:59 -> 19:09
-           => 670
-        */
-
-        List<Map<String, Object>> carInfo = new ArrayList<Map<String, Object>>();
-
-        int carLengChk = 0;
-        String carName = "";
-        int carInOutTime = 0;
-
-        Map<String, Object> carInfoMap = new HashMap<String, Object>();
-
-        for (int i = 0; i < records.length; i++) {
-
-            carInOutTime = chgTimeToMin(records[i].split(" ")[0]);
-            // carName CHK
-            // carCharge CHK
-            carName = records[i].split(" ")[1];
-
-            carInfoMap.put(carName, Integer.parseInt(String.valueOf(carInfoMap.get(carName) != null ? carInfoMap.get(carName) : "0")) + (carInOutTime * (records[i].split(" ")[2].equals("IN") ? -1 : 1)));
-
-            if(Integer.parseInt(String.valueOf(carInfoMap.get(carName))) < 0) {
-                carInfoMap.put(carName, Integer.parseInt(String.valueOf(carInfoMap.get(carName))) + chgTimeToMin("23:59"));
+            if (r.charAt(11) == 'I') map1.put(carNum, min);
+            else {
+                int ent = map1.get(carNum);
+                map2.put(carNum, map2.getOrDefault(carNum, 0) + min - ent);
+                map1.remove(carNum);
             }
         }
 
+        for (int key : map1.keySet()) //퇴장 안한 차 마무리
+            map2.put(key, map2.getOrDefault(key, 0) + exit - map1.get(key));
 
-        System.out.println(carInfoMap);
+        for (int key : map2.keySet()) //순서 정렬
+            pq.add(key);
 
-        return answer;
-    }
-
-    public static int chgTimeToMin(String time) {
-
-        String hour = time.split(":")[0];
-        String min = time.split(":")[1];
-
-        return (Integer.parseInt(hour) * 60) + Integer.parseInt(min);
-    }
-
-    public static int getCharge(int minute, int baseMin, int baseCharge, int addMin, int addCharge) {
-
-        int charge = 0;
-        int remainMin = 0;
-        int reMin = 0;
-
-        if(minute > baseMin) {
-            charge += baseCharge;
-
-            remainMin = minute - baseMin;
-            charge += ((remainMin / addMin) + ((remainMin % addMin) > 0 ? 1 : 0)) * addCharge;
-        } else {
-            charge = baseCharge;
+        int[] ans = new int[map2.size()];
+        for (int i = 0; i < ans.length; i++) { // pq 순서대로 계산하여 입력
+            int overTime = map2.get(pq.poll()) - baseTime;
+            ;
+            if (overTime < 0) overTime = 0;
+            ans[i] = baseFee + (int) Math.ceil(overTime / time) * fee;
         }
 
-        return charge;
+        return ans;
     }
 }
 
@@ -169,6 +127,7 @@ public class Lv2_21 {
 [180, 5000, 10, 600]	["05:34 5961 IN", "06:00 0000 IN", "06:34 0000 OUT", "07:59 5961 OUT", "07:59 0148 IN", "18:59 0000 IN", "19:09 0148 OUT", "22:59 5961 IN", "23:00 5961 OUT"]	[14600, 34400, 5000]
 [120, 0, 60, 591]	    ["16:00 3961 IN","16:00 0202 IN","18:00 3961 OUT","18:00 0202 OUT","23:58 3961 IN"]	                                                                            [0, 591]
 [1, 461, 1, 10]	        ["00:00 1234 IN"]	                                                                                                                                            [14841]
+[1, 10, 1, 11], ["00:00 1234 IN", "00:02 1234 OUT"]
 
  */
 
