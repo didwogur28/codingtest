@@ -20,6 +20,7 @@ package study._221206;
  */
 
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -54,35 +55,22 @@ public class Lv2_22 {
             sizeArr[size-1]++;
         }
 
+        Arrays.sort(sizeArr);
+
         int startSize = 0;
         int preCnt = maxSize;
 
-        while (startSize < maxSize) {
+        for (int i=sizeArr.length-1; i>=0; i--) {
 
-            for (int i = startSize; i < sizeArr.length; i++) {
-
-                if(k < sizeArr[i]) {
-                    return 1;
-                }
-
-                sum += sizeArr[i];
-                cnt ++;
-
-                if (sum > k) {
-                    break;
-                } else if(sum == k) {
-                    if(preCnt > cnt) {
-                        preCnt = cnt;
-                        break;
-                    }
-                }
+            if(k <= 0) {
+                break;
             }
 
-            sum = 0;
-            cnt = 0;
-            startSize++;
+            cnt ++;
+            k -= sizeArr[i];
         }
-        return preCnt;
+
+        return cnt;
     }
 }
 
