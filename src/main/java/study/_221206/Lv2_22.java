@@ -35,8 +35,54 @@ public class Lv2_22 {
     }
 
     public static int solution(int k, int[] tangerine) {
-        int answer = 0;
-        return answer;
+
+        int maxSize = 0;
+        int cnt = 0;
+        int sum = 0;
+
+        for(int tanger : tangerine) {
+            if(tanger > maxSize) {
+                maxSize = tanger;
+            }
+        }
+
+        int[] sizeArr = new int[maxSize];
+
+        for(int i=0; i<tangerine.length; i++) {
+            int size = tangerine[i];
+
+            sizeArr[size-1]++;
+        }
+
+        int startSize = 0;
+        int preCnt = maxSize;
+
+        while (startSize < maxSize) {
+
+            for (int i = startSize; i < sizeArr.length; i++) {
+
+                if(k < sizeArr[i]) {
+                    return 1;
+                }
+
+                sum += sizeArr[i];
+                cnt ++;
+
+                if (sum > k) {
+                    break;
+                } else if(sum == k) {
+                    if(preCnt > cnt) {
+                        preCnt = cnt;
+                        break;
+                    }
+                }
+            }
+
+            sum = 0;
+            cnt = 0;
+            startSize++;
+        }
+        return preCnt;
     }
 }
 
