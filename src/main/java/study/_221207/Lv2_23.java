@@ -40,7 +40,12 @@ public class Lv2_23 {
     }
 
     public static int solution(int n, int k) {
+        
         int answer = -1;
+
+        Integer.toBinaryString(n);
+        String chgInt = Integer.toString(n, k);
+
         return answer;
     }
 }
