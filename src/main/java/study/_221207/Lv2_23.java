@@ -27,13 +27,15 @@ package study._221207;
  */
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Lv2_23 {
 
     public static void main(String[] args) {
 
-        int solution = solution(437674, 3);
+        int solution = solution(110011, 10);
 
         System.out.print(solution);
 
@@ -41,21 +43,57 @@ public class Lv2_23 {
 
     public static int solution(int n, int k) {
 
-        int answer = -1;
+        int answer = 0;
+        String dupZero = "";
+        String zinsuArg = "";
+
+        List<String> argList = new ArrayList<String>();
 
         Integer.toBinaryString(n);
         String chgInt = Integer.toString(n, k);
 
-        System.out.println(chgInt);
+        for(String arg : chgInt.split("")) {
+            if(arg.equals("0") && dupZero.equals("0")) {
+
+            } else {
+                zinsuArg += arg;
+            }
+
+            dupZero = arg;
+        }
+
+        for(int i=0; i<zinsuArg.split("0").length; i++) {
+            argList.add(zinsuArg.split("0")[i]);
+        }
+
+        for(String arg : argList) {
+
+            if(chkSosu(Long.parseLong(arg)).equals("Y")) {
+                answer++;
+            }
+        }
 
         return answer;
+    }
+
+    public static String chkSosu(Long n) {
+
+        if(n == 1) {
+            return "N";
+        }
+
+        for (int i = 2; i<=(int)Math.sqrt(n); i++) {
+
+            if (n % i == 0) {
+                return "N";
+            }
+        }
+        return "Y";
     }
 }
 
 /*
 
-437674	3	3
-110011	10	2
 
  */
 
