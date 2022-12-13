@@ -31,6 +31,9 @@ public class Lv2_24 {
 
     public static int[][] solution(int[][] arr1, int[][] arr2) {
         int[][] answer = {};
+        for(int i=0; i<arr1.length; i++) {
+            
+        }
         return answer;
     }
 }
