@@ -30,70 +30,30 @@ public class Lv2_26 {
     }
 
     public static int solution(String word) {
-        int answer = 0;
 
-        /*
-        A
-        AA
-        AAA
-        AAAA
-        AAAAA
-        AAAAE
-        AAAAI
-        AAAAO
-        AAAAU
-        EEEEE
-        EEEEI
-        AAAE
-        AAAEA
-        AAAEE
-        AAAEI
-        AAAEO
-        AAAEU
-        AAAI
-        AAAIA
-        AAAIE
-        AAAII
-        AAAIO
-        AAAIU
-        AAAO
-        AAAOA
-        AAAOE
-        AAAOI
-        AAAOO
-        AAAOU
-        AAAU
-        AAAOA
-        AAAOE
-        AAAOI
-        AAAOO
-        AAAOU
-        AAE
-        AAEAA
-        AAEAE
-        * */
+        int answer = word.length();
 
-        String[] wordArr = new String[]{"A", "E", "I", "O", "U"};
+        char[] ch = {'A', 'E', 'I', 'O', 'U'};
+        int []num = {781, 156, 31, 6, 1};
 
-        if(word.length() < 5) return word.length();
+        for(int i = 0; i < word.length(); i++) {
 
-        for(int i=word.length()-1; i>=0; i--) {
-            for(int j=0; j< wordArr.length; j++) {
-                if(String.valueOf(word.charAt(i)).equals(wordArr[j])) {
-                    answer = (j+1) * 5;
+            for(int j = 0; j < 5; j++) {
+
+                if(word.charAt(i) == ch[j]) {
+                    answer += num[i] * j;
                 }
             }
         }
+
         return answer;
     }
+
+
 }
 
 /*
 
-"AAAAE"	6
-"AAAE"	10
-"I"	1563
-"EIO"	1189
 
  */
 
