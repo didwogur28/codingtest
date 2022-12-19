@@ -20,21 +20,70 @@ package study._221216;
  */
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
+
 public class Lv2_28 {
 
     public static void main(String[] args) {
 
-        int solution = solution("[](){}");
+        int solution = solution("()(({{{{{{");
 
         System.out.println(solution);
     }
 
     public static int solution(String s) {
-        int answer = -1;
+
+        int answer = 0;
+
+        StringBuffer sb = new StringBuffer(s);
+
+        for(int i=0; i<s.length(); i++) {
+            if(chkBrk(sb).equals("Y")) answer++;
+            sb.append(sb.charAt(0)).deleteCharAt(0);
+        }
+
         return answer;
     }
 
+    public static String chkBrk(StringBuffer s) {
 
+        Stack<Character> stack = new Stack<Character>();
+
+        for(int i=0; i<s.length(); i++) {
+            char c = s.charAt(i);
+            switch(c) {
+                case '(':
+                    stack.add(c);
+                    break;
+                case ')':
+                    if(stack.size() == 0 || stack.pop() != '(') {
+                        return "N";
+                    }
+                    break;
+                case '{':
+                    stack.add(c);
+                    break;
+                case '}':
+                    if(stack.size() == 0 || stack.pop() != '{') {
+                        return "N";
+                    }
+                    break;
+                case '[':
+                    stack.add(c);
+                    break;
+                case ']':
+                    if(stack.size() == 0 || stack.pop() != '[') {
+                        return "N";
+                    }
+                    break;
+            }
+        }
+
+        return "Y";
+    }
 }
 
 /*
