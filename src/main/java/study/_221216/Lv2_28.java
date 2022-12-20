@@ -29,7 +29,9 @@ public class Lv2_28 {
 
     public static void main(String[] args) {
 
-        int solution = solution("()(({{{{{{");
+        int solution = solution("()(\n" +
+                "(\n" +
+                "{{{{{{");
 
         System.out.println(solution);
     }
@@ -38,51 +40,29 @@ public class Lv2_28 {
 
         int answer = 0;
 
-        StringBuffer sb = new StringBuffer(s);
-
-        for(int i=0; i<s.length(); i++) {
-            if(chkBrk(sb).equals("Y")) answer++;
-            sb.append(sb.charAt(0)).deleteCharAt(0);
+        for (int i = 0; i < s.length(); i++) {
+            answer += (check(s)) ? 1 : 0;
+            s = s.substring(1, s.length()) + s.substring(0,1);
         }
 
         return answer;
     }
 
-    public static String chkBrk(StringBuffer s) {
+    public static boolean check(String str) {
+        Stack<Character> ch = new Stack<>();
 
-        Stack<Character> stack = new Stack<Character>();
-
-        for(int i=0; i<s.length(); i++) {
-            char c = s.charAt(i);
-            switch(c) {
-                case '(':
-                    stack.add(c);
-                    break;
-                case ')':
-                    if(stack.size() == 0 || stack.pop() != '(') {
-                        return "N";
-                    }
-                    break;
-                case '{':
-                    stack.add(c);
-                    break;
-                case '}':
-                    if(stack.size() == 0 || stack.pop() != '{') {
-                        return "N";
-                    }
-                    break;
-                case '[':
-                    stack.add(c);
-                    break;
-                case ']':
-                    if(stack.size() == 0 || stack.pop() != '[') {
-                        return "N";
-                    }
-                    break;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == '(' || str.charAt(i) == '{' || str.charAt(i) == '[') { ch.push(str.charAt(i)); } else {
+                if (!ch.isEmpty()) {
+                    char c = ch.pop(), s = str.charAt(i);
+                    if(c == '(' && s == ')') { continue; }
+                    else if(c == '{' && s == '}') { continue; }
+                    else if(c == '[' && s == ']') { continue; }
+                    else { return false; }
+                } else {return false;}
             }
         }
-
-        return "Y";
+        if(ch.isEmpty()) { return true; } else { return false; }
     }
 }
 
