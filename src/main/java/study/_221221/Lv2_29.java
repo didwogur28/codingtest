@@ -28,7 +28,7 @@ public class Lv2_29 {
 
     public static void main(String[] args) {
 
-        int solution = solution("abracadabra");
+        int solution = solution("aaabbaccccabba");
 
         System.out.println(solution);
     }
@@ -36,34 +36,25 @@ public class Lv2_29 {
     public static int solution(String s) {
 
         int answer = 0;
-        int splitCnt = 1;
 
-        String bfArg = "";
-        String afArg = "";
+        while (s.length() != 0) {
+            answer++;
 
-        while(s.length() > 1) {
+            char ch = s.charAt(0);
+            int sCount = 1;
+            int dCount = 0;
+            for (int i = 1; i < s.length(); i++) {
+                char at = s.charAt(i);
+                if (ch == at)
+                    sCount++;
+                else
+                    dCount++;
 
-            splitCnt++;
-            if(splitCnt > s.length()) break;
-
-            bfArg = s.substring(0, splitCnt);
-
-            for(int i=splitCnt; i<s.length(); i++) {
-                afArg += String.valueOf(s.charAt(i));
-
-                Set<String> bfSet = Arrays.stream(bfArg.split("")).collect(java.util.stream.Collectors.toSet());
-                Set<String> afSet = Arrays.stream(afArg.split("")).collect(java.util.stream.Collectors.toSet());
-
-                if (bfSet.size() == afSet.size()) {
-                    answer++;
-
-                    splitCnt = 1;
-                    afArg = "";
-                    s = s.substring(splitCnt+1);
-
+                if (sCount == dCount)
                     break;
-                }
             }
+
+            s = s.substring(sCount + dCount);
         }
 
         return answer;
@@ -71,10 +62,6 @@ public class Lv2_29 {
 }
 
 /*
-
-"banana"	3
-"abracadabra"	6
-"aaabbaccccabba"	3
 
  */
 
