@@ -46,32 +46,28 @@ public class Lv2_32 {
     public static int solution(int k, int m, int[] score) {
 
         int answer = 0;
-        int minScore = k;
+        int boxLen = 0;
+        int boxCnt = 0;
+        int minNum = -1;
 
         List<Integer> scores = Arrays.stream(score).boxed().collect(Collectors.toList());
         Collections.sort(scores);
         Collections.reverse(scores);
 
-        while(scores.size() > m) {
+        boxLen = scores.size() / m;
 
-            for(int i=answer; i<m; i++) {
-                if(scores.get(i) < minScore) {
-                    minScore = scores.get(i);
-                }
-            }
+        while (boxCnt != boxLen) {
+            boxCnt++;
+            minNum += m;
 
-
+            answer += (scores.get(minNum) * m);
         }
-
 
         return answer;
     }
 }
 
 /*
-
-3	4	[1, 2, 3, 1, 2, 3, 1]	8
-4	3	[4, 1, 2, 2, 4, 4, 4, 4, 1, 2, 4, 2]	33
 
  */
 
