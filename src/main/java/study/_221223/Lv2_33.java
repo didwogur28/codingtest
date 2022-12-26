@@ -32,52 +32,42 @@ public class Lv2_33 {
     }
 
     public static int solution(String[] babbling) {
+
+        String[] keyword = {"aya", "ye", "woo", "ma"};
+
         int answer = 0;
-        String whileChk = "Y";
-        String preBabb = "";
 
-        String[] canBabbling = new String[]{"aya", "ye", "woo", "ma"};
+        for (String babble : babbling) {
+            babble = replaceKeyword(keyword, babble);
 
-        for(int i=0; i<babbling.length; i++) {
-            String babb = babbling[i];
-
-            while(whileChk.equals("Y")) {
-
-                for(String can : canBabbling) {
-
-                    if(babb.contains(can)) {
-
-                        if(can.equals(preBabb)) {
-                            whileChk = "N";
-                            break;
-                        }
-
-                        babb = babb.replaceFirst(can, "");
-                        preBabb = can;
-                        whileChk = "Y";
-                        break;
-                    } else {
-                        whileChk = "N";
-                    }
-                }
-
-                if("".equals(babb)) {
-                    answer++;
-                    break;
-                }
+            if (babble.matches("^[0-9]*$") && isContinuity(babble)) {
+                answer++;
             }
-            preBabb = "";
-            whileChk = "Y";
         }
 
         return answer;
+    }
+
+    private static String replaceKeyword(String[] keyword, String babble) {
+        for (int i = 0; i < keyword.length; i++) {
+            babble = babble.replaceAll(keyword[i], String.valueOf(i));
+        }
+        return babble;
+    }
+
+    private static boolean isContinuity(String babble) {
+        for (int i = 0; i < babble.length()-1; i++) {
+            if (babble.charAt(i) == babble.charAt(i + 1)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
 /*
 
-["aya", "yee", "u", "maa"]	1
-["ayaye", "uuu", "yeye", "yemawoo", "ayaayaa"]	2
+
 
  */
 
