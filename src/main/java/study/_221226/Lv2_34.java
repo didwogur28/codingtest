@@ -57,6 +57,7 @@ public class Lv2_34 {
                     ingreList.remove(i);
                 }
             }
+            answer++; //??
         }
 
         return answer;
