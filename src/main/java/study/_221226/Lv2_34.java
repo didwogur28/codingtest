@@ -41,33 +41,40 @@ public class Lv2_34 {
 
     public static int solution(int[] ingredient) {
 
+        //  리턴할 변수 answer 0으로 초기화, 주어진 재료로 햄버거를 하나도 못만드는 경우가 발생할 수 도 있고, 햄버거를 만들때마다 하나씩 증가
         int answer = 0;
-        String ingreString = "";
-        String ham = "1231";
 
-        List<Integer> ingreList = Arrays.stream(ingredient).boxed().collect(Collectors.toList());
-        while (ingreList.size()-4 > 0) {
+        // Stack 으로 처리를 해주고자, data (Stack) 선언
+        Stack data = new Stack();
 
-            for(int i=0; i<ingreList.size()-4; i++) {
-                if(ingreList.get(i) == 1 && ingreList.get(i+1) == 3 && ingreList.get(i+2) == 2 && ingreList.get(i+3) == 1) {
-                    answer++;
-                    ingreList.remove(i+3);
-                    ingreList.remove(i+2);
-                    ingreList.remove(i+1);
-                    ingreList.remove(i);
-                }
-            }
-            answer++; //??
+        // ingredient 원소를 스택에 하나씩 대입하며, 비교
+        for (int i : ingredient){
+
+            // 햄버거가 만들어지려면, 빵이 맨위에 쌓여야 하기때문에,
+            // i 값이 1 일경우, index error를 피하기위해 stack의 데이터가 3이상일때,
+            // 현재 스택에쌓여있는 원소들을 비교하고자 lastIndexOf() 메서드를 사용하여,
+            // 3(고기) 이 스택의 마지막, 그 다음 2(야채)가, 그다음 1(빵) 인지 확인
+            if (i == 1 &&
+                data.size() >= 3 &&
+                data.lastIndexOf(3) == data.size()-1 &&
+                data.lastIndexOf(2) == data.size()-2 &&
+                data.lastIndexOf(1) == data.size()-3)
+            {
+                // 주어진 데이터가 조건을 만족하면, 만든 햄버거의 갯수 추가하고, 스택에있던 재료를 사용했음으로 pop을 세번하여 재료를 제거
+                answer++;
+                data.pop();
+                data.pop();
+                data.pop();
+
+            }else
+                // 조건을 만족하지 못할경우 i 를 그냥 스택에 추가
+                data.add(i); //
         }
-
         return answer;
     }
 }
 
 /*
-
-[2, 1, 1, 2, 3, 1, 2, 3, 1]	2
-[1, 3, 2, 1, 2, 1, 3, 1, 2]	0
 
  */
 
