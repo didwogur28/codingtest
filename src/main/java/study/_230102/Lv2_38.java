@@ -35,7 +35,7 @@ public class Lv2_38 {
         int answer = 0;
         for(int[] map : maps) {
             for(int i=0; i<map.length; i++) {
-                
+                int a = map[i];
             }
         }
         return answer;
