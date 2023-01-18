@@ -69,6 +69,10 @@ public class Lv2_39 {
 
     public static int[] solution(String today, String[] terms, String[] privacies) {
         int[] answer = {};
+
+        for(int i=0; i<privacies.length; i++) {
+            String dates = privacies[i];
+        }
         return answer;
     }
 }
