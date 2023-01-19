@@ -55,25 +55,74 @@ package study._230117;
 
  */
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Lv2_39 {
 
     public static void main(String[] args) {
 
-        int[] solution = solution("2022.05.19", new String[]{"A 6", "B 12", "C 3"}, new String[]{"2021.05.02 A", "2021.07.01 B", "2022.02.19 C", "2022.02.20 C"});
+        int[] solution = solution("2020.01.01", new String[]{"Z 3", "D 5"}, new String[]{"2019.01.01 D", "2019.11.15 Z", "2019.08.02 D", "2019.07.01 D", "2018.12.28 Z"});
 
-        System.out.print(solution);
+        for(int i : solution) {
+            System.out.print(i);
+        }
+
     }
 
     public static int[] solution(String today, String[] terms, String[] privacies) {
+
         int[] answer = {};
+        String cnt = "";
+        Map<String, Object> expireMap = new HashMap<String, Object>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+        today = today.replaceAll("\\.", "");
+        for(String term : terms) {
+            expireMap.put(term.split(" ")[0], term.split(" ")[1]);
+        }
 
         for(int i=0; i<privacies.length; i++) {
-            String dates = privacies[i];
+            String priDate = privacies[i].split(" ")[0].replaceAll("\\.", "");
+            String priHow = privacies[i].split(" ")[1];
+
+            try {
+                String addMonth = AddDate(priDate, Integer.parseInt(String.valueOf(expireMap.get(priHow))));
+
+                if(Integer.parseInt(addMonth.substring(6, 8)) > 28) {
+                    addMonth = addMonth.substring(0, 6) + "28";
+                }
+
+                if(sdf.parse(today).after(sdf.parse(addMonth))) {
+                    cnt += String.valueOf(i+1);
+                }
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        }
+
+        answer = new int[cnt.length()];
+
+        for(int i=0; i<cnt.length(); i++) {
+            answer[i] = Integer.parseInt(cnt.split("")[i]);
         }
         return answer;
+    }
+
+    public static String AddDate(String strDate, int month) throws Exception {
+
+        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
+
+        Calendar cal = Calendar.getInstance();
+
+        Date dt = dtFormat.parse(strDate);
+
+        cal.setTime(dt);
+
+        cal.add(Calendar.MONTH, month);
+        cal.add(Calendar.DATE, -1);
+
+        return dtFormat.format(cal.getTime());
     }
 }
 
