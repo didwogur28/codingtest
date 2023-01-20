@@ -72,57 +72,29 @@ public class Lv2_39 {
 
     public static int[] solution(String today, String[] terms, String[] privacies) {
 
-        int[] answer = {};
-        String cnt = "";
-        Map<String, Object> expireMap = new HashMap<String, Object>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        List<Integer> answer = new ArrayList<Integer>();
+        Map<String, Integer> termMap = new HashMap<String, Integer>();
+        int todayDays = (Integer.valueOf(today.split("\\.")[0]) * 12 * 28) + (Integer.valueOf(today.split("\\.")[1]) * 28) + (Integer.valueOf(today.split("\\.")[2]));
 
-        today = today.replaceAll("\\.", "");
         for(String term : terms) {
-            expireMap.put(term.split(" ")[0], term.split(" ")[1]);
+            termMap.put(term.split(" ")[0], Integer.valueOf(term.split(" ")[1]));
         }
 
-        for(int i=0; i<privacies.length; i++) {
-            String priDate = privacies[i].split(" ")[0].replaceAll("\\.", "");
-            String priHow = privacies[i].split(" ")[1];
+        for(int i=0; i< privacies.length; i++) {
+            String priDate = privacies[i].split(" ")[0];
+            String priTerm = privacies[i].split(" ")[1];
 
-            try {
-                String addMonth = AddDate(priDate, Integer.parseInt(String.valueOf(expireMap.get(priHow))));
+            int year = Integer.valueOf(priDate.split("\\.")[0]);
+            int month = Integer.valueOf(priDate.split("\\.")[1]);
+            int day = Integer.valueOf(priDate.split("\\.")[2]);
 
-                if(Integer.parseInt(addMonth.substring(6, 8)) > 28) {
-                    addMonth = addMonth.substring(0, 6) + "28";
-                }
+            int expireDate = (year * 12 * 28) + ((month + termMap.get(priTerm)) * 28) + day -1;
 
-                if(sdf.parse(today).after(sdf.parse(addMonth))) {
-                    cnt += String.valueOf(i+1);
-                }
-            } catch (Exception e) {
-                System.out.println(e.toString());
+            if(expireDate > todayDays) {
+                answer.add(i);
             }
         }
-
-        answer = new int[cnt.length()];
-
-        for(int i=0; i<cnt.length(); i++) {
-            answer[i] = Integer.parseInt(cnt.split("")[i]);
-        }
-        return answer;
-    }
-
-    public static String AddDate(String strDate, int month) throws Exception {
-
-        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
-
-        Calendar cal = Calendar.getInstance();
-
-        Date dt = dtFormat.parse(strDate);
-
-        cal.setTime(dt);
-
-        cal.add(Calendar.MONTH, month);
-        cal.add(Calendar.DATE, -1);
-
-        return dtFormat.format(cal.getTime());
+        return answer.stream().mapToInt(i -> i).toArray();
     }
 }
 
