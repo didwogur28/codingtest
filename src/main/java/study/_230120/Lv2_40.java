@@ -44,6 +44,10 @@ public class Lv2_40 {
 
     public static int solution(int cacheSize, String[] cities) {
         int answer = 0;
+
+        for(int i=0; i<cities.length; i++) {
+
+        }
         return answer;
     }
 }
