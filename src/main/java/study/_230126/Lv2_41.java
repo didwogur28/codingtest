@@ -34,6 +34,8 @@ public class Lv2_41 {
 
     public static String solution(int n) {
         String answer = "";
+
+        String chgZinbub = "";
         return answer;
     }
 }
