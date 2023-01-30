@@ -36,6 +36,7 @@ public class Lv2_41 {
         String answer = "";
 
         String chgZinbub = "";
+        String standardNum = "124";
         return answer;
     }
 }
