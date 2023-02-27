@@ -20,7 +20,9 @@ package study._230126;
 
  */
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class Lv2_41 {
@@ -33,20 +35,38 @@ public class Lv2_41 {
     }
 
     public static String solution(int n) {
-        String answer = "";
 
-        String chgZinbub = "";
-        String standardNum = "124";
+        String answer = "";
+        int[] values = {0,1,2,4};
+        List<Integer> remainders = new ArrayList<>();
+
+        while(n > 3){
+            int q = n / 3;  //3
+            int r = n % 3;  //0
+
+            if(r == 0){
+                q = q-1;      //2
+                r = r+3;      //3
+            }
+            n = q;
+            remainders.add(r);
+        }
+
+        if(n < 4){
+            remainders.add(n);
+        }
+
+        StringBuffer sb = new StringBuffer();
+        remainders.stream()
+                .forEachOrdered(v -> sb.append(values[v]));
+
+        answer = sb.reverse().toString();
+
         return answer;
     }
 }
 
 /*
-
-1	1
-2	2
-3	4
-4	11
 
  */
 
