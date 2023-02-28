@@ -42,8 +42,14 @@ public class Lv2_42 {
         int maxSizeOfOneArea = 0;
 
         int[] answer = new int[2];
+
+        for(int i=0; i< picture.length; i++) {
+
+        }
         answer[0] = numberOfArea;
         answer[1] = maxSizeOfOneArea;
+
+
         return answer;
     }
 }
