@@ -58,7 +58,7 @@ public class Lv2_43 {
             }
             return;
         }
-        for (int i = 0; i < 8; i++) { // 조합
+        for (int i = 0; i < 8; i++) { //
             if (!isVisited[i]) {
                 isVisited[i] = true;
                 String name = names + friends[i];
