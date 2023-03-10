@@ -32,6 +32,9 @@ package study._230310;
 
 public class Lv2_49 {
 
+    static int max = 10000000;//배열에 들어갈 수 있는 최댓값
+
+
     public static void main(String[] args) {
 
         int[] solution = solution(1, 10);
@@ -41,29 +44,29 @@ public class Lv2_49 {
         }
     }
 
+
     public static int[] solution(long begin, long end) {
 
-        int first = (int)begin;
-        int last = (int)end;
+        int s = (int)begin, e = (int)end;//int 형변환
+        int[] answer = new int[e-s+1];
 
-        int[] answer = new int[last - first + 1];
-
-        for (int now = first; now < last + 1; now++) {
-
-            answer[now - first] = 1;
-
-            for (int div = 2; div <= Math.floor(Math.sqrt(now)); div++)
-                if (now % div == 0 && now / div <= 10000000) {
-                    answer[now - first] = now / div;
-                    break;
-                }
+        for(int i=s; i<=end; i++){
+            answer[i-s] = findMinority(i);
         }
-
-        if (first == 1)
-            answer[0] = 0;
-
         return answer;
     }
+
+    public static int findMinority(int num){ //소수찾기 함수
+        if(num==1){ return 0; } //1은 소수가 x
+
+        for(int i=2; i<=Math.sqrt(num); i++){
+            if(num%i==0&&(num/i)<=max){
+                return num/i;
+            }
+        }
+        return 1; //1과 자기자신을 제외하고 소수가 없을 경우 1
+    }
+
 }
 
 /*
