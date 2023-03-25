@@ -28,7 +28,8 @@ import java.util.ArrayList;
 
 public class Lv2_50 {
 
-    static int max = 10000000;//배열에 들어갈 수 있는 최댓값
+    //배열에 들어갈 수 있는 최댓값
+    static int max = 10000000;
 
 
     public static void main(String[] args) {
